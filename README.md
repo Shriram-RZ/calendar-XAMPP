@@ -38,7 +38,7 @@ This document provides instructions for setting up the Calendar Application usin
 
 3. **Clone the Repository**:
     ```sh
-    git clone https://github.com/Shriram-RZ/calendar-XAMPP.git event-calendar
+    git clone https://github.com/Shriram-RZ/calendar-XAMPP.git
     ```
 
 4. **Navigate to the Project Directory**:
