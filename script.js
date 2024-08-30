@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentMonth = new Date().getMonth();
     let currentYear = new Date().getFullYear();
     const currentMonthElem = document.getElementById('current-month');
-    const calendar = document.querySelector('.calendar');
+    const calendarDays = document.querySelector('.calendar-days');
     const dayEventsPanel = document.getElementById('day-events-panel');
     const eventsList = document.getElementById('events-list');
     const noEventsMessage = document.getElementById('no-events-message');
@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let eventsData = [];
 
     function generateCalendar(month, year) {
-        calendar.innerHTML = ''; // Clear previous calendar
+        calendarDays.innerHTML = ''; // Clear previous calendar
+
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const firstDayIndex = new Date(year, month, 1).getDay();
 
@@ -23,8 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
         // Add blank days for the previous month
         for (let i = 0; i < firstDayIndex; i++) {
             const blankDay = document.createElement('div');
-            blankDay.classList.add('blank');
-            calendar.appendChild(blankDay);
+            blankDay.classList.add('day', 'blank');
+            calendarDays.appendChild(blankDay);
         }
 
         // Add days of the current month
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             day.onclick = () => showDayEvents(i, month, year);
-            calendar.appendChild(day);
+            calendarDays.appendChild(day);
         }
     }
 
@@ -125,6 +126,19 @@ document.addEventListener('DOMContentLoaded', function () {
         generateCalendar(currentMonth, currentYear);
         fetchEvents(); // Refresh events after changing month
     };
+
+    document.getElementById('navigate-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const monthInput = parseInt(document.getElementById('month-input').value);
+        const yearInput = parseInt(document.getElementById('year-input').value);
+
+        if (yearInput && monthInput !== null) {
+            currentMonth = monthInput;
+            currentYear = yearInput;
+            generateCalendar(currentMonth, currentYear);
+            fetchEvents(); // Refresh events after navigating to a specific month and year
+        }
+    });
 
     document.getElementById('add-event-form').addEventListener('submit', function (e) {
         e.preventDefault();
@@ -216,6 +230,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Attach event listener to close modal on outside click
     document.addEventListener('click', handleModalClose);
+     // Fetch Events panel elements
+     const fetchEventsBtn = document.getElementById('fetch-events-btn');
+     const fetchEventsPanel = document.getElementById('fetch-events-panel');
+     const allEventsList = document.getElementById('all-events-list');
+     const noAllEventsMessage = document.getElementById('no-all-events-message');
+     const closeFetchPanelBtn = document.getElementById('close-fetch-panel');
+ 
+     // Fetch events and display in sliding panel
+     fetchEventsBtn.onclick = function () {
+         fetch('fetchevents.php')
+             .then(response => response.json())
+             .then(data => {
+                 allEventsList.innerHTML = ''; // Clear previous events
+                 if (data.length > 0) {
+                     noAllEventsMessage.style.display = 'none';
+                     data.forEach(event => {
+                         const li = document.createElement('li');
+                         li.textContent = `${event.title} (${new Date(event.start_date).toLocaleDateString()} - ${new Date(event.end_date).toLocaleDateString()})`;
+                         allEventsList.appendChild(li);
+                     });
+                 } else {
+                     noAllEventsMessage.style.display = 'block';
+                 }
+                 fetchEventsPanel.classList.add('open'); // Open the sliding panel
+             })
+             .catch(error => console.error('Error:', error));
+     };
+ 
+     // Close the Fetch Events panel
+     closeFetchPanelBtn.onclick = function () {
+         fetchEventsPanel.classList.remove('open');
+     };
 
     fetchEvents(); // Initial load of events
 });

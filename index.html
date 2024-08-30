@@ -13,8 +13,38 @@
             <button id="prev-month">&lt;</button>
             <span id="current-month"></span>
             <button id="next-month">&gt;</button>
+            <form id="navigate-form">
+                <input type="number" id="year-input" placeholder="Year" min="1900" max="2100" required>
+                <select id="month-input">
+                    <option value="0">January</option>
+                    <option value="1">February</option>
+                    <option value="2">March</option>
+                    <option value="3">April</option>
+                    <option value="4">May</option>
+                    <option value="5">June</option>
+                    <option value="6">July</option>
+                    <option value="7">August</option>
+                    <option value="8">September</option>
+                    <option value="9">October</option>
+                    <option value="10">November</option>
+                    <option value="11">December</option>
+                </select>
+                <button type="submit">Go</button>
+            </form>
         </div>
-        <div class="calendar"></div>
+        <div class="calendar">
+            <div class="day-names">
+                <div class="day-name">Sun</div>
+                <div class="day-name">Mon</div>
+                <div class="day-name">Tue</div>
+                <div class="day-name">Wed</div>
+                <div class="day-name">Thu</div>
+                <div class="day-name">Fri</div>
+                <div class="day-name">Sat</div>
+            </div>
+            <div class="calendar-days"></div>
+        </div>
+        <button id="fetch-events-btn" class="fetch-events-btn">Fetch Events</button>
     </div>
     
     <!-- Sliding panel for day events -->
@@ -30,6 +60,17 @@
                 <button id="add-event-btn" class="add-event-btn">Add Event</button>
                 <button id="delete-events-btn" class="delete-event-btn" style="display: none;">Delete Events</button>
             </div>
+        </div>
+    </div>
+     <!-- Sliding panel for all events -->
+     <div id="fetch-events-panel" class="slide-panel">
+        <div class="panel-header">
+            <span>All Events</span>
+            <button id="close-fetch-panel" class="close">&times;</button>
+        </div>
+        <div class="panel-content">
+            <ul id="all-events-list"></ul>
+            <p id="no-all-events-message">No events found.</p>
         </div>
     </div>
 
