@@ -26,8 +26,10 @@
         <div class="panel-content">
             <ul id="events-list"></ul>
             <p id="no-events-message">No events for today.</p>
-            <button id="add-event-btn">Add Event</button>
-            <button id="delete-events-btn" style="display: none;">Delete Selected Events</button>
+            <div class="button-group">
+                <button id="add-event-btn" class="add-event-btn">Add Event</button>
+                <button id="delete-events-btn" class="delete-event-btn" style="display: none;">Delete Events</button>
+            </div>
         </div>
     </div>
 
@@ -35,6 +37,7 @@
     <div id="event-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
+            <h2>Add New Event</h2>
             <form id="add-event-form">
                 <input type="text" id="event-title" placeholder="Event Title" required>
                 <textarea id="event-description" placeholder="Event Description"></textarea>
@@ -42,10 +45,13 @@
                 <input type="date" id="event-end-date">
                 <input type="time" id="event-start-time" required>
                 <input type="time" id="event-end-time">
-                <button type="submit">Add Event</button>
+                <button type="submit" class="modal-submit-btn">Add Event</button>
             </form>
         </div>
     </div>
+
+    <!-- Snackbar for notifications -->
+    <div id="snackbar" class="snackbar"></div>
 
     <script src="script.js"></script>
 </body>

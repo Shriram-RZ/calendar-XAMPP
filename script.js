@@ -7,17 +7,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const eventsList = document.getElementById('events-list');
     const noEventsMessage = document.getElementById('no-events-message');
     const selectedDayTitle = document.getElementById('selected-day-title');
+    const eventModal = document.getElementById('event-modal');
+    const closeModalButtons = document.querySelectorAll('.modal .close');
     let eventsData = [];
 
     function generateCalendar(month, year) {
         calendar.innerHTML = ''; // Clear previous calendar
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const firstDayIndex = new Date(year, month, 1).getDay();
-        
+
         // Update current month display
         const options = { year: 'numeric', month: 'long' };
         currentMonthElem.textContent = new Intl.DateTimeFormat('en-US', options).format(new Date(year, month));
-        
+
         // Add blank days for the previous month
         for (let i = 0; i < firstDayIndex; i++) {
             const blankDay = document.createElement('div');
@@ -76,6 +78,32 @@ document.addEventListener('DOMContentLoaded', function () {
         dayEventsPanel.classList.remove('open');
     }
 
+    function closeModal() {
+        eventModal.style.display = 'none';
+    }
+
+    function showSnackbar(message, success = true) {
+        const snackbar = document.createElement('div');
+        snackbar.classList.add('snackbar');
+        snackbar.textContent = message;
+        snackbar.style.backgroundColor = success ? '#4caf50' : '#f44336'; // Green for success, red for error
+        document.body.appendChild(snackbar);
+
+        setTimeout(() => {
+            snackbar.classList.add('show');
+            setTimeout(() => {
+                snackbar.classList.remove('show');
+                document.body.removeChild(snackbar);
+            }, 3000); // Show for 3 seconds
+        }, 100);
+    }
+
+    function handleModalClose(event) {
+        if (event.target === eventModal || event.target === closeModalButtons[0]) {
+            closeModal();
+        }
+    }
+
     document.getElementById('close-panel').onclick = closeDayEventsPanel;
 
     document.getElementById('prev-month').onclick = function () {
@@ -120,23 +148,24 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'POST',
             body: formData
         })
-        .then(response => response.text()) // Change to .text() for debugging
+        .then(response => response.json())
         .then(data => {
-            console.log(data); // Log raw response for inspection
-            try {
-                const json = JSON.parse(data); // Parse manually
-                alert(json.success ? "Event added!" : json.error);
-            } catch (e) {
-                console.error('Invalid JSON:', data);
+            if (data.success) {
+                showSnackbar("Event added!");
+            } else {
+                showSnackbar(data.error, false);
             }
-            document.getElementById('event-modal').style.display = 'none';
+            closeModal();
             fetchEvents(); // Refresh events after adding new one
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            showSnackbar("Failed to add event", false);
+        });
     });
 
     document.getElementById('add-event-btn').onclick = function () {
-        document.getElementById('event-modal').style.display = 'block';
+        eventModal.style.display = 'block';
     };
 
     function fetchEvents() {
@@ -172,11 +201,21 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(response => response.json())
         .then(data => {
-            alert(data.success ? "Events deleted!" : data.error);
+            if (data.success) {
+                showSnackbar("Events deleted!");
+            } else {
+                showSnackbar(data.error, false);
+            }
             fetchEvents(); // Refresh events after deletion
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            showSnackbar("Failed to delete events", false);
+        });
     }
+
+    // Attach event listener to close modal on outside click
+    document.addEventListener('click', handleModalClose);
 
     fetchEvents(); // Initial load of events
 });
