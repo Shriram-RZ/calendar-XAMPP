@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Calendar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="calendar-header">
+            <button id="prev-month">&lt;</button>
+            <span id="current-month"></span>
+            <button id="next-month">&gt;</button>
+        </div>
+        <div class="calendar"></div>
+    </div>
+    
+    <!-- Sliding panel for day events -->
+    <div id="day-events-panel" class="slide-panel">
+        <div class="panel-header">
+            <span id="selected-day-title"></span>
+            <button id="close-panel" class="close">&times;</button>
+        </div>
+        <div class="panel-content">
+            <ul id="events-list"></ul>
+            <p id="no-events-message">No events for today.</p>
+            <button id="add-event-btn">Add Event</button>
+            <button id="delete-events-btn" style="display: none;">Delete Selected Events</button>
+        </div>
+    </div>
+
+    <!-- Event modal for adding events -->
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="add-event-form">
+                <input type="text" id="event-title" placeholder="Event Title" required>
+                <textarea id="event-description" placeholder="Event Description"></textarea>
+                <input type="date" id="event-start-date" required>
+                <input type="date" id="event-end-date">
+                <input type="time" id="event-start-time" required>
+                <input type="time" id="event-end-time">
+                <button type="submit">Add Event</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
