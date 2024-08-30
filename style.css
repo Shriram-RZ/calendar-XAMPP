@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f0f4f8;
+    background: linear-gradient(to bottom right, #f0f4f8, #e0e7ef);
     color: #333;
 }
 
@@ -17,8 +17,9 @@ body {
     margin: 50px auto;
     padding: 20px;
     background: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(6px);
 }
 
 /* Calendar Header */
@@ -27,16 +28,21 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px;
-    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    background: linear-gradient(135deg, #9fa8da, #7986cb);
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.calendar-header:hover {
+    transform: translateY(-2px);
 }
 
 .calendar-header h1 {
     margin: 0;
-    font-size: 24px;
-    color: #1e88e5;
+    font-size: 26px;
+    color: #fff;
 }
 
 .calendar-header .controls {
@@ -45,18 +51,19 @@ body {
 }
 
 .calendar-header .controls button {
-    background: #1e88e5;
+    background: linear-gradient(145deg, #5c6bc0, #3f51b5);
     border: none;
     color: white;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 12px;
+    border-radius: 8px;
     cursor: pointer;
     margin-left: 10px;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .calendar-header .controls button:hover {
-    background: #1565c0;
+    background: linear-gradient(145deg, #3949ab, #303f9f);
+    transform: scale(1.05);
 }
 
 /* Day Names and Calendar Days */
@@ -70,20 +77,24 @@ body {
 .day-name {
     flex: 1;
     text-align: center;
-    padding: 10px;
+    padding: 12px;
     font-weight: bold;
-    background: #e0e0e0;
-    border-bottom: 2px solid #d0d0d0;
+    background: linear-gradient(135deg, #c5cae9, #9fa8da);
+    color: #333;
+    border-bottom: 2px solid #9fa8da;
 }
 
 /* Calendar Grid */
 .calendar-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
+    gap: 12px;
     border: 1px solid #d0d0d0;
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .day, .blank {
@@ -91,35 +102,37 @@ body {
     justify-content: center;
     align-items: center;
     background-color: #ffffff;
-    padding: 15px;
-    border-radius: 8px;
+    padding: 18px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 .day:hover {
-    transform: scale(1.05);
-    background-color: #e8f0fe;
+    transform: scale(1.1);
+    background: linear-gradient(145deg, #e3f2fd, #bbdefb);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .day.today {
-    border: 2px solid #1e88e5;
+    border: 3px solid #1e88e5;
     color: #1e88e5;
     font-weight: bold;
+    background-color: #e8f0fe;
 }
 
 .blank {
-    background: #f0f0f0;
+    background: #f5f5f5;
 }
 
 /* Event Indicator */
 .event-indicator {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     background-color: #1e88e5;
     border-radius: 50%;
-    margin-left: 5px;
+    margin-left: 6px;
 }
 
 /* Sliding Panel */
@@ -132,9 +145,9 @@ body {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(8px);
     box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
-    transition: right 0.5s ease;
+    transition: right 0.5s ease, transform 0.3s ease;
     z-index: 1000;
-    border-left: 3px solid #1e88e5; /* Blue border */
+    border-left: 4px solid #5c6bc0;
 }
 
 .slide-panel.open {
@@ -145,15 +158,15 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 15px;
-    background: #e3f2fd;
-    border-bottom: 2px solid #1e88e5;
+    background: linear-gradient(135deg, #9fa8da, #7986cb);
+    border-bottom: 2px solid #5c6bc0;
     backdrop-filter: blur(6px);
 }
 
 .panel-header h2 {
     margin: 0;
-    font-size: 20px;
-    color: #1e88e5;
+    font-size: 22px;
+    color: #fff;
 }
 
 .panel-content {
@@ -167,13 +180,13 @@ body {
 
 #events-list li {
     margin-bottom: 15px;
-    background: #e8f0fe;
+    background: linear-gradient(135deg, #e8f0fe, #c5cae9);
     padding: 15px;
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
 }
 
 #no-events-message {
@@ -183,24 +196,24 @@ body {
     color: #666;
 }
 
-.add-event-btn,
-.delete-event-btn {
-    width: calc(50% - 10px);
-    margin-top: 15px;
-    padding: 12px;
-    background: linear-gradient(145deg, #1e88e5, #2196f3);
+/* Buttons with Gradient and Animation */
+button {
+    display: inline-block;
+    padding: 12px 20px;
+    background: linear-gradient(145deg, #5c6bc0, #3f51b5);
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
-    transition: background 0.3s ease, transform 0.3s ease;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.add-event-btn:hover,
-.delete-event-btn:hover {
-    background: linear-gradient(145deg, #1565c0, #1976d2);
+button:hover {
+    background: linear-gradient(145deg, #3949ab, #303f9f);
     transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Modal Styles */
@@ -212,7 +225,7 @@ body {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
     z-index: 1001;
 }
 
@@ -222,16 +235,17 @@ body {
     padding: 25px;
     border: none;
     width: 450px;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(12px);
     text-align: center;
+    transition: transform 0.3s ease;
 }
 
 .modal-content h2 {
     margin-top: 0;
-    font-size: 20px;
-    color: #1e88e5;
+    font-size: 22px;
+    color: #5c6bc0;
 }
 
 .modal input,
@@ -249,22 +263,23 @@ body {
 
 .modal input:focus,
 .modal textarea:focus {
-    box-shadow: 0 0 12px rgba(30, 136, 229, 0.5);
+    box-shadow: 0 0 12px rgba(92, 107, 192, 0.5);
 }
 
 .modal-submit-btn {
-    background: linear-gradient(145deg, #1e88e5, #2196f3);
+    background: linear-gradient(145deg, #5c6bc0, #3f51b5);
     color: white;
     border: none;
     cursor: pointer;
     padding: 14px;
     border-radius: 8px;
     font-size: 16px;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .modal-submit-btn:hover {
-    background: linear-gradient(145deg, #1565c0, #1976d2);
+    background: linear-gradient(145deg, #3949ab, #303f9f);
+    transform: scale(1.05);
 }
 
 /* Close Button Styles */
@@ -273,6 +288,7 @@ body {
     cursor: pointer;
     color: #888;
     float: right;
+    transition: color 0.3s ease;
 }
 
 .close:hover {
@@ -294,6 +310,7 @@ body {
     left: 50%;
     z-index: 1001;
     transition: opacity 0.5s ease, visibility 0.5s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .snackbar.show {
@@ -305,22 +322,27 @@ body {
     opacity: 0;
     visibility: hidden;
 }
+
 /* Fetch Events Button */
 .fetch-events-btn {
-    padding: 12px 20px;
-    background: linear-gradient(145deg, #1e88e5, #2196f3);
+    padding: 14px 24px;
+    background: linear-gradient(145deg, #5c6bc0, #3f51b5);
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
-    transition: background 0.3s ease, transform 0.3s ease;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    top: 10px;
 }
 
 .fetch-events-btn:hover {
-    background: linear-gradient(145deg, #1565c0, #1976d2);
+    background: linear-gradient(145deg, #3949ab, #303f9f);
     transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Sliding Panel for Fetch Events */
@@ -334,4 +356,3 @@ body {
 }
 
 /* Additional panel styling remains the same */
-
