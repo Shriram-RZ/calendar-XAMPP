@@ -1,0 +1,178 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 10px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.day, .blank {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.day.today {
+    border: 2px solid purple;
+    color: purple;
+}
+
+/* Styles for the sliding panel */
+.slide-panel {
+    position: fixed;
+    top: 0;
+    right: -350px; /* Hidden by default */
+    width: 350px;
+    height: 100%;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: right 0.3s ease;
+    z-index: 1000;
+}
+
+.slide-panel.open {
+    right: 0; /* Slides in from the right */
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-bottom: 1px solid #ddd;
+}
+
+.panel-content {
+    padding: 15px;
+}
+
+#events-list {
+    list-style: none;
+    padding: 0;
+}
+
+#events-list li {
+    margin-bottom: 10px;
+    background-color: #f3e5f5;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.event-indicator {
+    width: 8px;
+    height: 8px;
+    background-color: purple;
+    border-radius: 50%;
+    margin-left: 5px;
+}
+
+#no-events-message {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    color: #777;
+}
+
+.add-event-btn,
+.delete-event-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: purple;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.add-event-btn:hover,
+.delete-event-btn:hover {
+    background-color: #4a0072;
+}
+
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px;
+    border-radius: 8px;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.modal input,
+.modal textarea,
+.modal button {
+    width: calc(100% - 20px);
+    margin: 10px 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.modal-submit-btn {
+    background-color: purple;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-submit-btn:hover {
+    background-color: #4a0072;
+}
+
+/* Close button styles */
+.close {
+    font-size: 24px;
+    cursor: pointer;
+    color: #888;
+    float: right;
+}
+
+.close:hover {
+    color: #333;
+}
