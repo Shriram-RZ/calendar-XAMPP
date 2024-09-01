@@ -10,8 +10,60 @@ document.addEventListener('DOMContentLoaded', function () {
     const eventModal = document.getElementById('event-modal');
     const closeModalButtons = document.querySelectorAll('.modal .close');
     let eventsData = [];
+    const searchBar = document.getElementById('search-bar');
+    const searchBtn = document.getElementById('search-btn');
+    const suggestionsContainer = document.getElementById('search-suggestions');
 
-    function generateCalendar(month, year) {
+    function showSuggestions(events) {
+        suggestionsContainer.innerHTML = '';
+        if (events.length === 0) {
+            suggestionsContainer.style.display = 'none';
+            return;
+        }
+        events.forEach(event => {
+            const suggestion = document.createElement('div');
+            suggestion.textContent = `${event.title} (${new Date(event.start_date).toLocaleDateString()})`;
+            suggestion.onclick = () => jumpToEvent(event);
+            suggestionsContainer.appendChild(suggestion);
+        });
+        suggestionsContainer.style.display = 'block';
+    }
+
+    function fetchSuggestions(query) {
+        fetch(`search_events.php?query=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                showSuggestions(data);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function jumpToEvent(event) {
+        const eventDate = new Date(event.start_date);
+        currentMonth = eventDate.getMonth();
+        currentYear = eventDate.getFullYear();
+        generateCalendar(currentMonth, currentYear, eventDate.getDate()); // Highlight the searched day
+        fetchEvents(); // Refresh events after jumping to the date
+        suggestionsContainer.style.display = 'none'; // Hide suggestions
+    }
+
+    searchBar.addEventListener('input', function () {
+        const query = searchBar.value.trim();
+        if (query.length > 0) {
+            fetchSuggestions(query);
+        } else {
+            suggestionsContainer.style.display = 'none';
+        }
+    });
+
+    searchBtn.onclick = function () {
+        const query = searchBar.value.trim();
+        if (query.length > 0) {
+            fetchSuggestions(query);
+        }
+    };
+
+    function generateCalendar(month, year, highlightDay = null) {
         calendarDays.innerHTML = ''; // Clear previous calendar
 
         const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -37,6 +89,11 @@ document.addEventListener('DOMContentLoaded', function () {
             // Highlight today's date
             if (i === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) {
                 day.classList.add('today');
+            }
+
+            // Highlight searched event day
+            if (highlightDay !== null && i === highlightDay) {
+                day.classList.add('selected');
             }
 
             // Show events for the day
@@ -230,38 +287,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Attach event listener to close modal on outside click
     document.addEventListener('click', handleModalClose);
-     // Fetch Events panel elements
-     const fetchEventsBtn = document.getElementById('fetch-events-btn');
-     const fetchEventsPanel = document.getElementById('fetch-events-panel');
-     const allEventsList = document.getElementById('all-events-list');
-     const noAllEventsMessage = document.getElementById('no-all-events-message');
-     const closeFetchPanelBtn = document.getElementById('close-fetch-panel');
- 
-     // Fetch events and display in sliding panel
-     fetchEventsBtn.onclick = function () {
-         fetch('fetchevents.php')
-             .then(response => response.json())
-             .then(data => {
-                 allEventsList.innerHTML = ''; // Clear previous events
-                 if (data.length > 0) {
-                     noAllEventsMessage.style.display = 'none';
-                     data.forEach(event => {
-                         const li = document.createElement('li');
-                         li.textContent = `${event.title} (${new Date(event.start_date).toLocaleDateString()} - ${new Date(event.end_date).toLocaleDateString()})`;
-                         allEventsList.appendChild(li);
-                     });
-                 } else {
-                     noAllEventsMessage.style.display = 'block';
-                 }
-                 fetchEventsPanel.classList.add('open'); // Open the sliding panel
-             })
-             .catch(error => console.error('Error:', error));
-     };
- 
-     // Close the Fetch Events panel
-     closeFetchPanelBtn.onclick = function () {
-         fetchEventsPanel.classList.remove('open');
-     };
+
+    // Fetch Events panel elements
+    const fetchEventsBtn = document.getElementById('fetch-events-btn');
+    const fetchEventsPanel = document.getElementById('fetch-events-panel');
+    const allEventsList = document.getElementById('all-events-list');
+    const noAllEventsMessage = document.getElementById('no-all-events-message');
+    const closeFetchPanelBtn = document.getElementById('close-fetch-panel');
+
+    // Fetch events and display in sliding panel
+    fetchEventsBtn.onclick = function () {
+        fetch('fetchevents.php')
+            .then(response => response.json())
+            .then(data => {
+                allEventsList.innerHTML = ''; // Clear previous events
+                if (data.length > 0) {
+                    noAllEventsMessage.style.display = 'none';
+                    data.forEach(event => {
+                        const li = document.createElement('li');
+                        li.textContent = `${event.title} (${new Date(event.start_date).toLocaleDateString()} - ${new Date(event.end_date).toLocaleDateString()})`;
+                        allEventsList.appendChild(li);
+                    });
+                } else {
+                    noAllEventsMessage.style.display = 'block';
+                }
+                fetchEventsPanel.classList.add('open'); // Open the sliding panel
+            })
+            .catch(error => console.error('Error:', error));
+    };
+
+    // Close the Fetch Events panel
+    closeFetchPanelBtn.onclick = function () {
+        fetchEventsPanel.classList.remove('open');
+    };
 
     fetchEvents(); // Initial load of events
 });

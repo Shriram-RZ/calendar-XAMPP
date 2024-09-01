@@ -13,6 +13,11 @@
             <button id="prev-month">&lt;</button>
             <span id="current-month"></span>
             <button id="next-month">&gt;</button>
+            <div class="search-container">
+                <input type="text" id="search-bar" placeholder="Search events...">
+                <button id="search-btn">Search</button>
+                <div id="search-suggestions" class="suggestions"></div>
+            </div>
             <form id="navigate-form">
                 <input type="number" id="year-input" placeholder="Year" min="1900" max="2100" required>
                 <select id="month-input">

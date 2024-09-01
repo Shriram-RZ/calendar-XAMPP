@@ -356,3 +356,42 @@ button:hover {
 }
 
 /* Additional panel styling remains the same */
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+#search-bar {
+    padding: 5px;
+    margin-right: 5px;
+}
+
+#search-btn {
+    padding: 5px;
+}
+
+.suggestions {
+    position: absolute;
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: none;
+    max-height: 200px;
+    overflow-y: auto;
+    top: 55px;
+}
+
+.suggestions div {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.suggestions div:hover {
+    background-color: #f0f0f0;
+}
+.day.selected {
+    border: 2px solid green;
+    box-shadow: 0 0 5px green;
+}
+
+
