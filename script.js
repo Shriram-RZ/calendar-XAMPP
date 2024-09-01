@@ -305,6 +305,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     noAllEventsMessage.style.display = 'none';
                     data.forEach(event => {
                         const li = document.createElement('li');
+                        li.className = 'styled-list-item';
                         li.textContent = `${event.title} (${new Date(event.start_date).toLocaleDateString()} - ${new Date(event.end_date).toLocaleDateString()})`;
                         allEventsList.appendChild(li);
                     });

@@ -3,10 +3,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: linear-gradient(to bottom right, #f0f4f8, #e0e7ef);
     color: #333;
 }
@@ -148,6 +149,7 @@ body {
     transition: right 0.5s ease, transform 0.3s ease;
     z-index: 1000;
     border-left: 4px solid #5c6bc0;
+    overflow: scroll;
 }
 
 .slide-panel.open {
@@ -176,6 +178,7 @@ body {
 #events-list {
     list-style: none;
     padding: 0;
+    
 }
 
 #events-list li {
@@ -187,6 +190,8 @@ body {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid blue;
+    
 }
 
 #no-events-message {
@@ -355,43 +360,276 @@ button:hover {
     right: 0; /* Slides in from the right */
 }
 
-/* Additional panel styling remains the same */
+
+/* Enhanced Search Container */
 .search-container {
     display: flex;
     align-items: center;
+    position: relative;
+    margin-bottom: 20px;
 }
 
 #search-bar {
-    padding: 5px;
-    margin-right: 5px;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 250px;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#search-bar:focus {
+    border-color: #5c6bc0;
+    box-shadow: 0 0 8px rgba(92, 107, 192, 0.3);
+    outline: none;
 }
 
 #search-btn {
-    padding: 5px;
+    padding: 10px 15px;
+    background: linear-gradient(145deg, #5c6bc0, #3f51b5);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    margin-left: 10px;
 }
 
+#search-btn:hover {
+    background: linear-gradient(145deg, #3949ab, #303f9f);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Enhanced Suggestions */
 .suggestions {
     position: absolute;
     background: white;
     border: 1px solid #ddd;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: none;
-    max-height: 200px;
+    max-height: 250px;
     overflow-y: auto;
-    top: 55px;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .suggestions div {
-    padding: 5px;
+    padding: 10px;
     cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+}
+
+.suggestions div:last-child {
+    border-bottom: none;
 }
 
 .suggestions div:hover {
     background-color: #f0f0f0;
 }
+
+/* Enhanced Navigate Form */
+#navigate-form {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px;
+    background: #ffffff; /* Solid white background for better contrast */
+    border-radius: 12px; /* Increased border radius for a more modern look */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* More pronounced shadow for depth */
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transition effects */
+}
+
+#navigate-form:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Darker shadow on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+#navigate-form label {
+    margin-right: 15px;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500; /* Slightly bolder text for labels */
+}
+
+#navigate-form input[type="number"] {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-right: 15px; /* Added margin for better spacing */
+    width: 90px; /* Slightly wider input fields */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#navigate-form input[type="number"]:focus {
+    border-color: #5c6bc0; /* Blue border on focus */
+    box-shadow: 0 0 8px rgba(92, 107, 192, 0.3); /* Shadow effect on focus */
+    outline: none;
+}
+
+#navigate-form button {
+    padding: 10px 20px;
+    background: linear-gradient(145deg, #5c6bc0, #3f51b5); /* Gradient background */
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 20px; /* Added margin-left for space between button and input fields */
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+}
+
+#navigate-form button:hover {
+    background: linear-gradient(145deg, #3949ab, #303f9f); /* Darker gradient on hover */
+    transform: scale(1.05); /* Slightly enlarges on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+}
+
+/* Day Selected */
 .day.selected {
     border: 2px solid green;
     box-shadow: 0 0 5px green;
 }
 
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+    .container {
+        margin: 30px auto;
+        padding: 15px;
+    }
+    
+    .calendar-header h1 {
+        font-size: 22px;
+    }
+
+    .calendar-header .controls button {
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    .day-names, .calendar-days {
+        flex-direction: column;
+    }
+    
+    .calendar-days {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    #fetch-events-panel {
+        width: 400px;
+    }
+}
+
+@media (max-width: 992px) {
+    .calendar-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .calendar-header .controls {
+        margin-top: 10px;
+    }
+
+    .calendar-days {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .slide-panel, #fetch-events-panel {
+        width: 300px;
+    }
+
+    #search-bar {
+        width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin: 20px auto;
+        padding: 10px;
+    }
+
+    .calendar-header h1 {
+        font-size: 18px;
+    }
+
+    .calendar-header .controls button {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .calendar-days {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .slide-panel, #fetch-events-panel {
+        width: 250px;
+    }
+
+    #search-bar {
+        width: 150px;
+    }
+
+    #navigate-form {
+        flex-direction: column;
+    }
+    
+    #navigate-form label {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    #navigate-form input[type="number"] {
+        margin-right: 0;
+        width: 100%;
+    }
+    
+    #navigate-form button {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .calendar-days {
+        grid-template-columns: 1fr;
+    }
+
+    #search-bar {
+        width: 100%;
+    }
+
+    .fetch-events-btn {
+        width: 100%;
+    }
+}
+.events-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+}
+
+.styled-list-item {
+    background: #c2ebfc;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgb(63, 221, 221);
+    margin-top: 10px;
+}
+.styled-list-item:nth-child(odd) {
+    background-color: #c5edff;
+}
 
