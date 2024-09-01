@@ -1,13 +1,21 @@
 <?php
+
 class BSTNode {
     public $event;
     public $left;
     public $right;
 
     public function __construct($event) {
+        if (!$this->isValidEvent($event)) {
+            throw new InvalidArgumentException('Invalid event data.');
+        }
         $this->event = $event;
         $this->left = null;
         $this->right = null;
+    }
+
+    private function isValidEvent($event) {
+        return isset($event['start_date']) && strtotime($event['start_date']) !== false;
     }
 }
 
@@ -28,7 +36,10 @@ class BinarySearchTree {
     }
 
     private function insertNode($node, $newNode) {
-        if (strtotime($newNode->event['start_date']) < strtotime($node->event['start_date'])) {
+        $newNodeDate = $this->getDateTimestamp($newNode->event['start_date']);
+        $nodeDate = $this->getDateTimestamp($node->event['start_date']);
+
+        if ($newNodeDate < $nodeDate) {
             if ($node->left === null) {
                 $node->left = $newNode;
             } else {
@@ -43,8 +54,13 @@ class BinarySearchTree {
         }
     }
 
+    private function getDateTimestamp($dateString) {
+        return strtotime($dateString);
+    }
+
     public function search($startDate) {
-        return $this->searchNode($this->root, strtotime($startDate));
+        $timestamp = $this->getDateTimestamp($startDate);
+        return $this->searchNode($this->root, $timestamp);
     }
 
     private function searchNode($node, $startDate) {
@@ -52,7 +68,7 @@ class BinarySearchTree {
             return null;
         }
 
-        $nodeDate = strtotime($node->event['start_date']);
+        $nodeDate = $this->getDateTimestamp($node->event['start_date']);
         if ($startDate === $nodeDate) {
             return $node->event;
         } elseif ($startDate < $nodeDate) {
@@ -64,7 +80,9 @@ class BinarySearchTree {
 
     public function searchEvents($startDate, $endDate) {
         $results = [];
-        $this->searchRange($this->root, strtotime($startDate), strtotime($endDate), $results);
+        $startTimestamp = $this->getDateTimestamp($startDate);
+        $endTimestamp = $this->getDateTimestamp($endDate);
+        $this->searchRange($this->root, $startTimestamp, $endTimestamp, $results);
         return $results;
     }
 
@@ -73,7 +91,7 @@ class BinarySearchTree {
             return;
         }
 
-        $nodeDate = strtotime($node->event['start_date']);
+        $nodeDate = $this->getDateTimestamp($node->event['start_date']);
         if ($nodeDate >= $startDate && $nodeDate <= $endDate) {
             $results[] = $node->event;
         }
@@ -88,4 +106,3 @@ class BinarySearchTree {
     }
 }
 ?>
-    

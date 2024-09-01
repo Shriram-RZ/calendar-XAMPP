@@ -494,8 +494,8 @@ button:hover {
 
 /* Day Selected */
 .day.selected {
-    border: 2px solid green;
-    box-shadow: 0 0 5px green;
+    border: 1px solid rgb(72, 222, 72);
+    box-shadow: 0 0 10px #7ffe7f;
 }
 
 /* Media Queries for Responsiveness */
@@ -631,5 +631,16 @@ button:hover {
 }
 .styled-list-item:nth-child(odd) {
     background-color: #c5edff;
+}
+.clear-icon {
+    position: relative;
+    right: 24px; /* Adjust based on your design */
+    cursor: pointer;
+    font-size: 18px; /* Adjust size as needed */
+    color: #888; /* Color of the clear icon */
+}
+
+.clear-icon:hover {
+    color: #000; /* Change color on hover */
 }
 

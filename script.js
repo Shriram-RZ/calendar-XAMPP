@@ -13,6 +13,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchBar = document.getElementById('search-bar');
     const searchBtn = document.getElementById('search-btn');
     const suggestionsContainer = document.getElementById('search-suggestions');
+    const clearIcon = document.getElementById('clear-search');
+        
+        clearIcon.addEventListener('click', () => {
+            searchBar.value = '';
+            searchBar.focus(); // Optionally refocus the search bar
+        });
+    
 
     function showSuggestions(events) {
         suggestionsContainer.innerHTML = '';
